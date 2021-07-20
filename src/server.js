@@ -8,6 +8,7 @@ const app = express();
 
 const PORT = 4000;
 
+app.use(express.urlencoded({ extended:true }));
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 

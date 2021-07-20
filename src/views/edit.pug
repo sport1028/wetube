@@ -4,4 +4,7 @@ block head
     title #{pageTitle} | Wetube
 
 block content 
-    h1 Edit Video
+    h5 Change Title of video
+    form(method="POST")
+        input(name="title", placeholder="video Title", value=video.title, required)
+        input(value="Save", type="submit")
