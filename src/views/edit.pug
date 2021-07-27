@@ -1,10 +1,9 @@
 extends base.pug
 
-block head
-    title #{pageTitle} | Wetube
-
 block content 
-    h5 Change Title of video
+    h4 Update Video
     form(method="POST")
-        input(name="title", placeholder="video Title", value=video.title, required)
+        input(name="title", placeholder="video Title", value=video.title, required, maxLength=80)
+        input(name="description" placeholder="Description", required, type="text", minLength=20, value=video.description)
+        input(name="hashtags" placeholder="Hashtags, Seperated by comma." required, type="text", value=video.hashtags.join())
         input(value="Save", type="submit")
