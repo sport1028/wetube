@@ -151,16 +151,16 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
     const {
         session:{
-            user:{ _id, email: sessionEmail, username: sessionUsername},
+            user:{ _id, email: sessionEmail, username: sessionUsername, avatarUrl},
         },
         body:{
             name,
             email,
             username,
-            location
-        }
+            location,
+        },
+        file,
     } = req;
-
     if(email !== sessionEmail && username !== sessionUsername) {
         const existUser = await User.exists({$or: [{username}, {email} ]});
         if (existUser && existUser._id !== _id) {
@@ -170,7 +170,10 @@ export const postEdit = async (req, res) => {
             });
         }
     }
+    console.log(file.path);
+    console.log(avatarUrl);
     const updatedUser = await User.findByIdAndUpdate( _id, {
+        avatarUrl: file ? file.path : avatarUrl,
         name,
         email,
         username,
@@ -223,4 +226,11 @@ export const postChangePassword = async (req, res) => {
     await user.save();
     return res.redirect("/users/logout");
 }
-export const see = (req,res) => res.send("see");
+export const see = aysnc (req,res) => {
+    const { id } = req.params;
+    const user = await User.findyId(id);
+    if(!user) {
+        return res.status(404).render("404", pageTitle:"User not found");
+    }
+    return res.render("users/profile", {pageTitle: user.name, user});
+}
