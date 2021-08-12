@@ -9,28 +9,27 @@ import { localsMiddleware } from "./middlewares";
 
 const app = express();
 
-
-
-app.use(express.urlencoded({ extended:true }));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
 app.use(logger("dev"));
 
 app.use(
-    session({
-        secret: process.env.COOKIE_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        // cookie: {    // 만료날짜 없이 그냥 두겠다
-        //     maxAge:20000
-        // }
-        store: MongoStore.create({mongoUrl: process.env.DB_URL})
-    })
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    // cookie: {    // 만료날짜 없이 그냥 두겠다
+    //     maxAge:20000
+    // }
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+  })
 );
 
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("assets"));
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
