@@ -1,5 +1,5 @@
 import express from "express";
-import logger from "morgan";
+import morgan from "morgan";
 import session from "express-session";
 import flash from "express-flash";
 import MongoStore from "connect-mongo";
@@ -10,12 +10,13 @@ import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
 
 const app = express();
+const logger = morgan("dev");
 
-app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
-
-app.use(logger("dev"));
+app.use(logger);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(
   session({
