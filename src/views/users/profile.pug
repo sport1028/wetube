@@ -7,9 +7,9 @@ block content
             span 🙍‍♂️
         else 
             if loggedInUser.avatarUrl.includes("github")
-                img.header__avatar(src=loggedInUser.avatarUrl,crossorigin)
+                img.header__avatar(src=loggedInUser.avatarUrl)
             else 
-                img.header__avatar(src="/" + loggedInUser.avatarUrl)
+                img.header__avatar(src=loggedInUser.avatarUrl)
         //- img(src="/" + user.avatarUrl).avatar
         h3=user.name
     div.video-grid

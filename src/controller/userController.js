@@ -158,6 +158,7 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
     file,
   } = req;
+  console.log(file);
   if (email !== sessionEmail && username !== sessionUsername) {
     const existUser = await User.exists({ $or: [{ username }, { email }] });
     if (existUser && existUser._id !== _id) {
@@ -167,12 +168,10 @@ export const postEdit = async (req, res) => {
       });
     }
   }
-  console.log(file.path);
-  console.log(avatarUrl);
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
       name,
       email,
       username,

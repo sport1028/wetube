@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
@@ -30,11 +31,26 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.header("Cross-Origin-Embedder-Policy", "require-corp");
-  res.header("Cross-Origin-Opener-Policy", "same-origin");
-  next();
-});
+// app.use(cors());
+
+// app.use((req, res, next) => {
+  // res.header("Cross-Origin-Embedder-Policy", "*");
+  // res.header("Cross-Origin-Opener-Policy", "*");
+  
+  // res.header("Access-Control-Allow-Headers", "Content-Type",);
+  // res.header("Access-Control-Allow-Origin", "https://wetube-muzik.s3.amazonaws.com",);
+  // res.header("Access-Control-Allow-Methods", "OPTIONS,POST,GET,PUT");
+
+  // res.header("Access-Control-Allow-Origin", "http://localhost:4000'");
+  // res.header("Access-Control-Allow-Origin", "https://wetube-muzik.s3.amazonaws.com");
+  //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    // res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+
+  // res.writeHead(200, { "Access-Control-Allow-Origin": "https://wetube-muzik.s3.amazonaws.com" });
+  // res.header("Access-Control-Allow-Origin", " https://wetube-muzik.s3.amazonaws.com");
+  // next();
+// });
+// app.use(cors({ origin: "https://wetube-muzik.s3.amazonaws.com" }));
 
 app.use(flash());
 app.use(localsMiddleware);
