@@ -64,7 +64,6 @@ export const postEdit = async (req, res) => {
 };
 
 export const remove = (req, res) => {
-  console.log(req.params);
   res.send("Delete Video");
 };
 
@@ -178,7 +177,6 @@ export const deleteComment = async (req, res) => {
     _id: commentId,
     video: video.id,
   });
-  console.log(commenDelSuccess);
   video.comments.pull(commentId);
   video.save();
   return res.sendStatus(200);

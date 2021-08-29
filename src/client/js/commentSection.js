@@ -48,7 +48,6 @@ const handleDelete = async (event) => {
     const videoId = videoContainer.dataset.id;
     const comment = event.target.parentNode;
     const commentId = comment.dataset.id;
-    console.log(commentId);
     const response = await fetch(`/api/videos/${videoId}/commentDelete`, {
         method: "DELETE",
         headers: {

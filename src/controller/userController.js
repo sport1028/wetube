@@ -7,7 +7,6 @@ export const getJoin = (req, res) =>
   res.render("join", { pageTitle: "Create Account" });
 
 export const postJoin = async (req, res) => {
-  console.log(req.body);
   const { name, username, email, password, password2, location } = req.body;
   const pageTitle = "Join";
   if (password !== password2) {
@@ -159,7 +158,6 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
     file,
   } = req;
-  console.log(file);
   if (email !== sessionEmail && username !== sessionUsername) {
     const existUser = await User.exists({ $or: [{ username }, { email }] });
     if (existUser && existUser._id !== _id) {
