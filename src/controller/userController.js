@@ -1,7 +1,7 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
-import isHeroku from "../middlewares";
+import { isLocal } from "../middlewares";
 
 export const getJoin = (req, res) =>
   res.render("join", { pageTitle: "Create Account" });
@@ -167,11 +167,10 @@ export const postEdit = async (req, res) => {
       });
     }
   }
-
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? (isHeroku ? file.location : "/" + file.path) : avatarUrl,
+      avatarUrl: file ? (isLocal ? "/" + file.path : file.location) : avatarUrl,
       name,
       email,
       username,

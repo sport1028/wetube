@@ -1,7 +1,7 @@
 import Video from "../models/Video";
 import Comment from "../models/Comment";
 import User from "../models/User";
-import isHeroku from "../middlewares";
+import { isLocal } from "../middlewares";
 
 // export const home = (req, res) => {
 // 	Video.finde({}, (error, videos) => {
@@ -82,8 +82,10 @@ export const postUpload = async (req, res) => {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: isHeroku ? video[0].location : "/" + video[0].path,
-      thumbUrl: isHeroku ? thumb[0].location : "/" + thumb[0].destination + thumb[0].filename,
+      fileUrl: isLocal ? "/" + video[0].path : video[0].location,
+      thumbUrl: isLocal
+        ? "/" + thumb[0].destination + thumb[0].filename
+        : thumb[0].location,
       // fileUrl: video[0].path,
       // thumbUrl: "/" + thumb[0].destination + thumb[0].filename,
       owner: _id,
