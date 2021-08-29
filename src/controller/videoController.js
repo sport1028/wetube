@@ -1,6 +1,7 @@
 import Video from "../models/Video";
 import Comment from "../models/Comment";
 import User from "../models/User";
+import isHeroku from "../middlewares";
 
 // export const home = (req, res) => {
 // 	Video.finde({}, (error, videos) => {
@@ -82,8 +83,8 @@ export const postUpload = async (req, res) => {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: video[0].location,
-      thumbUrl: thumb[0].location,
+      fileUrl: isHeroku ? video[0].location : "/" + video[0].path,
+      thumbUrl: isHeroku ? thumb[0].location : "/" + thumb[0].destination + thumb[0].filename,
       // fileUrl: video[0].path,
       // thumbUrl: "/" + thumb[0].destination + thumb[0].filename,
       owner: _id,
@@ -161,13 +162,13 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   video.save();
-  return res.status(201).json({newCommentId: comment._id});
+  return res.status(201).json({ newCommentId: comment._id });
 };
 
 export const deleteComment = async (req, res) => {
   const {
-    session: {user},
-    body:{videoId, commentId},
+    session: { user },
+    body: { videoId, commentId },
   } = req;
   const video = await Video.findById(videoId);
   if (!video) {
@@ -181,4 +182,4 @@ export const deleteComment = async (req, res) => {
   video.comments.pull(commentId);
   video.save();
   return res.sendStatus(200);
-}
+};

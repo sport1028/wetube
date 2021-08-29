@@ -1,9 +1,11 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
+import isHeroku from "../middlewares";
 
 export const getJoin = (req, res) =>
   res.render("join", { pageTitle: "Create Account" });
+
 export const postJoin = async (req, res) => {
   console.log(req.body);
   const { name, username, email, password, password2, location } = req.body;
@@ -66,7 +68,6 @@ export const postLogin = async (req, res) => {
       errorMessage: "Wrong password",
     });
   }
-  console.log("LOG USER IN! COMMING SOON!!");
   req.session.loggedIn = true;
   req.session.user = user;
   return res.redirect("/");
@@ -168,10 +169,11 @@ export const postEdit = async (req, res) => {
       });
     }
   }
+
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location : "/" + file.path) : avatarUrl,
       name,
       email,
       username,
